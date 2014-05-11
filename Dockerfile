@@ -1,5 +1,5 @@
 FROM	ubuntu:quantal
-MAINTAINER	kload "kload@kload.fr"
+MAINTAINER	aycabta "aycabta@gmail.com"
 
 # prevent apt from starting mariadb right after the installation
 RUN	echo "#!/bin/sh\nexit 101" > /usr/sbin/policy-rc.d; chmod +x /usr/sbin/policy-rc.d
