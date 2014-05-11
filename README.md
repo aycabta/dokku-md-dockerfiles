@@ -2,5 +2,5 @@ Dockerfiles
 -----------
 
 ```
-docker build -t dokku/mariadb github.com/Kloadut/dokku-md-dockerfiles
+docker build -t dokku/mariadb github.com/aycabta/dokku-md-dockerfiles
 ```
