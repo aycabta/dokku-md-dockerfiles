@@ -22,4 +22,9 @@ RUN	chmod +x /usr/bin/start_mariadb.sh
 RUN	rm /usr/sbin/policy-rc.d
 
 RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+RUN sed -i -e"s/^innodb_buffer_pool_size\s*=\s*.*$/innodb_buffer_pool_size = 32M/" /etc/mysql/my.cnf
+RUN sed -i -e"s/^innodb_log_buffer_size\s*=\s*.*$/innodb_log_buffer_size = 1M/" /etc/mysql/my.cnf
+RUN sed -i -e"s/^key_buffer\s*=\s*.*$/key_buffer = 2M/" /etc/mysql/my.cnf
+RUN sed -i -e"s/^key_buffer_size\s*=\s*.*$/key_buffer_size = 8M/" /etc/mysql/my.cnf
+RUN sed -i -e"s/^query_cache_size\s*=\s*.*$/query_cache_size = 1M/" /etc/mysql/my.cnf
 RUN sed -i -e"s/var\/lib/opt/g" /etc/mysql/my.cnf
