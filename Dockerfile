@@ -1,13 +1,13 @@
-FROM	ubuntu:quantal
+FROM	ubuntu:trusty
 MAINTAINER	aycabta "aycabta@gmail.com"
 
 # prevent apt from starting mariadb right after the installation
-RUN	echo "#!/bin/sh\nexit 101" > /usr/sbin/policy-rc.d; chmod +x /usr/sbin/policy-rc.d
+RUN	printf '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d; chmod +x /usr/sbin/policy-rc.d
 
 RUN apt-get update
 RUN apt-get install -y software-properties-common
 RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
-RUN add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu quantal main'
+RUN add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu trusty main'
 RUN apt-get update
 RUN echo mysql-server-5.5 mysql-server/root_password password 'a_stronk_password' | debconf-set-selections
 RUN echo mysql-server-5.5 mysql-server/root_password_again password 'a_stronk_password' | debconf-set-selections
@@ -28,3 +28,6 @@ RUN sed -i -e"s/^key_buffer\s*=\s*.*$/key_buffer = 2M/" /etc/mysql/my.cnf
 RUN sed -i -e"s/^key_buffer_size\s*=\s*.*$/key_buffer_size = 8M/" /etc/mysql/my.cnf
 RUN sed -i -e"s/^query_cache_size\s*=\s*.*$/query_cache_size = 1M/" /etc/mysql/my.cnf
 RUN sed -i -e"s/var\/lib/opt/g" /etc/mysql/my.cnf
+
+# skip reverse DNS lookup of clients (hostnames are not used for authentication and this prevents the db server performance problems if dns is down or slow for some reason)
+RUN printf '[mysqld]\nskip-name-resolve\n' > /etc/mysql/conf.d/skip-name-resolve.cnf
